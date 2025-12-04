@@ -68,14 +68,14 @@ http://localhost:8000/docs
 
 ---
 
-Testattavat kohdat:
+### Testattavat kohdat:
 ✔ GET /categories → palauttaa kategoriat
 ✔ POST /categories → palauttaa Owner = "test_user"
 ✔ GET /products → jokaisella tuotteella on category_id
 
 ---
 
-Käytetyt teknologiat
+### Käytetyt teknologiat
 Python 3
 FastAPI
 Uvicorn
@@ -86,7 +86,7 @@ Swagger / OpenAPI
 
 ---
 
-Tavoite
+### Tavoite
 Oppia:
 lisäämään uutta ominaisuutta olemassa olevaan API:in
 kerrosarkkitehtuurin toteuttaminen (Controller → Service → Repository)
