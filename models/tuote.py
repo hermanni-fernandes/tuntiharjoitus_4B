@@ -5,3 +5,4 @@ class Tuote(BaseModel):
     nimi: str
     kuvaus: str
     hinta: float
+    category_id: int  # Jokainen tuote kuuluu kategoriaan
