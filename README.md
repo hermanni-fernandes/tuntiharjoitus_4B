@@ -1,7 +1,9 @@
-# Tuntiharjoitus 4B – Products API (FastAPI)
+# Tuntiharjoitus 4B – Category + Products API (FastAPI)
 
-Tämä projekti toteuttaa yksinkertaisen tuotteiden hakuun perustuvan REST-rajapinnan Pythonin FastAPI-kehyksellä.  
-Toteutus noudattaa kerrosarkkitehtuuria (Controller → Service → Repository) ja sisältää automaattisen Swagger- ja ReDoc-dokumentaation.
+Tämä projekti toteuttaa REST-rajapinnan Pythonin FastAPI-kehyksellä.  
+Tehtävän tavoitteena oli lisätä Category-toiminnallisuus aiemman tuotteiden API:n yhteyteen.  
+
+Toteutus sisältää REST-endpointit kategorioille, kategoriassa näkyvän omistajatiedon sekä sen, että jokainen tuote (Tuote) kuuluu johonkin kategoriaan.
 
 ---
 
@@ -10,13 +12,17 @@ Toteutus noudattaa kerrosarkkitehtuuria (Controller → Service → Repository) 
 ```
 tuntiharjoitus_4B/
 ├── controllers/
-│   └── products_controller.py
+│ ├── products_controller.py
+│ └── categories_controller.py
 ├── models/
-│   └── tuote.py
+│ ├── tuote.py
+│ └── category.py
 ├── repositories/
-│   └── products_repository.py
+│ ├── products_repository.py
+│ └── category_repository.py
 ├── services/
-│   └── products_service.py
+│ ├── products_service.py
+│ └── category_service.py
 ├── main.py
 ├── requirements.txt
 └── README.md
@@ -24,104 +30,65 @@ tuntiharjoitus_4B/
 
 ---
 
-## Toteutetut ominaisuudet
+## Toteutetut ominaisuudet (Tehtävä 4B)
 
-### **1. Malli (Model)**  
-`Tuote`-malli kuvaa yksittäistä tuotetta:
+### 1. Category-malli
+Category sisältää seuraavat kentät:
+- **id** (yksilöllinen tunniste)
+- **name** (kategorian nimi)
+- **owner** (kategoriasta vastaava käyttäjä, lisätään automaattisesti)
 
-- id  
-- nimi  
-- kuvaus  
-- hinta  
+> **Owner lisätään aina palvelimella**, eikä sitä lähetetä pyynnössä.
 
-Malli perustuu Pydantic BaseModel -luokkaan.
+### 2. Category REST-endpointit
+| Metodi | Polku | Kuvaus |
+|--------|-------|--------|
+| GET | `/categories` | Hae kaikki kategoriat |
+| GET | `/categories/{id}` | Hae yksittäinen kategoria omistajatiedon kanssa |
+| POST | `/categories` | Lisää uusi kategoria (Owner = `"test_user"`) |
 
----
+### 3. Tuote kuuluu kategoriaan
+`Tuote`-malliin lisättiin kenttä:
 
-### **2. Repository-kerros**
-`ProductsRepository` toimii kovakoodattuna tietolähteenä ja tarjoaa metodit:
+```python
+category_id: int
+Mock-dataa päivitettiin vastaavasti:
 
-- `get_all()` – palauttaa kaikki tuotteet  
-- `get_by_id(id)` – palauttaa yhden tuotteen ID:n perusteella  
+Kahvi ja Tee → kategorian Id = 1
+Suklaa → kategorian Id = 2
 
----
-
-### **3. Service-kerros**
-`ProductsService` sisältää sovelluslogiikan ja välittää pyynnöt repositorylle.
-
-- `get_all_products()`  
-- `get_product_by_id(id)`  
-
----
-
-### **4. Controller**
-`products_controller` tarjoaa REST-endpointit:
-
-- **GET /products** – kaikki tuotteet  
-- **GET /products/{id}** – yksittäinen tuote  
-
-Controller hyödyntää Service-kerrosta.
-
----
-
-## ▶ API:n käynnistäminen
-
-### 1. Asenna riippuvuudet
-```
-pip install -r requirements.txt
-```
-
-### 2. Käynnistä sovellus
-```
+### 4. Automaattinen dokumentaatio
+FastAPI tuottaa Swagger- ja ReDoc-dokumentaation automaattisesti.
+Testaus Swaggerilla
+Käynnistä sovellus:
 uvicorn main:app --reload
-```
 
-Sovellus käynnistyy osoitteeseen:
-
-http://localhost:8000
+Swagger UI löytyy:
+http://localhost:8000/docs
 
 ---
 
-## API-endpointit
-
-### Hae kaikki tuotteet  
-**GET**  
-`http://localhost:8000/products`
-
-### Hae tuote ID:n perusteella  
-**GET**  
-`http://localhost:8000/products/{id}`
-- esim. `http://localhost:8000/products/1`
+Testattavat kohdat:
+✔ GET /categories → palauttaa kategoriat
+✔ POST /categories → palauttaa Owner = "test_user"
+✔ GET /products → jokaisella tuotteella on category_id
 
 ---
 
-## Dokumentaatio
-
-FastAPI tuottaa dokumentaation automaattisesti:
-
-- **Swagger UI:** `http://localhost:8000/docs`
-- **ReDoc:** `http://localhost:8000/redoc` 
-
----
-
-## Käytetyt teknologiat
-
-- Python 3  
-- FastAPI  
-- Uvicorn  
-- Pydantic  
-- Repository Pattern  
-- Service Layer Pattern  
-- Swagger / OpenAPI  
+Käytetyt teknologiat
+Python 3
+FastAPI
+Uvicorn
+Pydantic
+Repository Pattern
+Service Layer Pattern
+Swagger / OpenAPI
 
 ---
 
-## Tavoite
-
-Harjoituksen tavoitteena on ymmärtää ja toteuttaa:
-
-- FastAPI-sovellus kerrosarkkitehtuurilla  
-- erilliset Models-, Repositories-, Services- ja Controllers-kansiot  
-- REST-rajapinta  
-- automaattinen Swagger- ja ReDoc-dokumentaatio
-
+Tavoite
+Oppia:
+lisäämään uutta ominaisuutta olemassa olevaan API:in
+kerrosarkkitehtuurin toteuttaminen (Controller → Service → Repository)
+mallien laajentaminen ja endpointtien lisääminen
+automaattisen dokumentaation hyödyntäminen (Swagger / ReDoc)
