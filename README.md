@@ -57,7 +57,7 @@ Mock-dataa päivitettiin vastaavasti:
 Kahvi ja Tee → kategorian Id = 1
 Suklaa → kategorian Id = 2
 
-### 4. Automaattinen dokumentaatio
+**### 4. Automaattinen dokumentaatio**
 FastAPI tuottaa Swagger- ja ReDoc-dokumentaation automaattisesti.
 Testaus Swaggerilla
 Käynnistä sovellus:
@@ -68,14 +68,14 @@ http://localhost:8000/docs
 
 ---
 
-### Testattavat kohdat:
+**### Testattavat kohdat:**
 ✔ GET /categories → palauttaa kategoriat
 ✔ POST /categories → palauttaa Owner = "test_user"
 ✔ GET /products → jokaisella tuotteella on category_id
 
 ---
 
-### Käytetyt teknologiat
+**### Käytetyt teknologiat**
 Python 3
 FastAPI
 Uvicorn
@@ -86,7 +86,7 @@ Swagger / OpenAPI
 
 ---
 
-### Tavoite
+**### Tavoite**
 Oppia:
 lisäämään uutta ominaisuutta olemassa olevaan API:in
 kerrosarkkitehtuurin toteuttaminen (Controller → Service → Repository)
